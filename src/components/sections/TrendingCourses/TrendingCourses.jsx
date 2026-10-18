@@ -1,9 +1,46 @@
-import React, { useRef } from "react";
+﻿import React, { useRef } from "react";
 import "./TrendingCourses.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFirebaseData from '../../../hooks/useFirebaseData';
 
+const resolveCourseLink = (course) => {
+  if (!course) return "/generative-ai";
+  const name = (course.name || "").toLowerCase();
+  const link = (course.link || "").trim().toLowerCase();
+
+  // If name or link refers to Generative AI / Gen AI / LLMs, or is the old fallback "/courses" for Gen AI
+  if (
+    name.includes("gen") || 
+    name.includes("generative") || 
+    name.includes("llm") || 
+    (name.includes("ai") && !name.includes("chain") && !name.includes("data")) ||
+    link.includes("gen-ai") || 
+    link.includes("generative-ai") ||
+    (link === "/courses" && name.includes("ai"))
+  ) {
+    return "/generative-ai";
+  }
+
+  if (name.includes("java")) return "/java-full-stack";
+  if (name.includes("python")) return "/python-full-stack";
+  if (name.includes("science")) return "/data-science";
+  if (name.includes("analytics")) return "/data-analytics";
+  if (name.includes("testing")) return "/software-testing";
+  if (name.includes("react")) return "/react-js";
+  if (name.includes("cloud")) return "/cloud-computing";
+  if (name.includes("devops")) return "/devops-automation";
+  if (name.includes("cyber")) return "/cyber-security";
+  if (name.includes("ui") || name.includes("ux")) return "/ui-ux-design";
+  if (name.includes("custom")) return "/contact-us";
+
+  if (course.link && course.link !== "/courses" && course.link !== "#") {
+    return course.link;
+  }
+  return "/generative-ai";
+};
+
 function TrendingCourses() {
+  const navigate = useNavigate();
   const [courses] = useFirebaseData('codewizen_courses', [
     {
       id: 1,
@@ -72,30 +109,44 @@ function TrendingCourses() {
           </div>
 
           <div className="slider-controls">
-            <button className="slider-arrow" onClick={slideLeft} aria-label="Previous Course">←</button>
-            <button className="slider-arrow" onClick={slideRight} aria-label="Next Course">→</button>
+            <button className="slider-arrow" onClick={slideLeft} aria-label="Previous Course">
+              &#8592;
+            </button>
+            <button className="slider-arrow" onClick={slideRight} aria-label="Next Course">
+              &#8594;
+            </button>
           </div>
         </div>
 
         <div className="courses-slider" ref={sliderRef} data-aos="fade-up" data-aos-delay="200">
-          {courses.map((course, index) => (
-            <div className="slider-course-card" key={course.id || index}>
-              <div className="slider-course-img">
-                <img src={course.image} alt={course.name} />
-                <div className="slider-course-category">{course.category}</div>
+          {courses.map((course, index) => {
+            const courseUrl = resolveCourseLink(course);
+            return (
+              <div 
+                className="slider-course-card" 
+                key={course.id || index}
+                onClick={() => navigate(courseUrl)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="slider-course-img">
+                  <img src={course.image} alt={course.name} />
+                  <div className="slider-course-category">{course.category}</div>
+                </div>
+                <div className="slider-course-content">
+                  <h3>{course.name}</h3>
+                  <p>{course.description}</p>
+                  <Link 
+                    to={courseUrl} 
+                    className="slider-course-link"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Course <span>&rarr;</span>
+                  </Link>
+                </div>
               </div>
-              <div className="slider-course-content">
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-                <Link to={course.link} className="slider-course-link">View Course <span>→</span></Link>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
-        {/* <div className="trending-cta" data-aos="fade-up">
-          <Link to="/courses" className="btn-outline">View All Courses</Link>
-        </div> */}
 
       </div>
     </section>

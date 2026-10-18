@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -124,6 +124,10 @@ function App() {
           <Route path="/software-testing" element={<SoftwareTesting />} />
           <Route path="/data-science" element={<DataScience />} />
           <Route path="/generative-ai" element={<GenerativeAI />} />
+          <Route path="/gen-ai" element={<Navigate to="/generative-ai" replace />} />
+          <Route path="/courses/generative-ai" element={<Navigate to="/generative-ai" replace />} />
+          <Route path="/courses/gen-ai" element={<Navigate to="/generative-ai" replace />} />
+          <Route path="/courses" element={<Navigate to="/#courses" replace />} />
           <Route path="/react-js" element={<ReactJS />} />
           <Route path="/cloud-computing" element={<CloudComputing />} />
           <Route path="/devops-automation" element={<DevOpsAutomation />} />

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+﻿import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Courses.css";
 
 const courseCategories = [
@@ -41,6 +41,8 @@ const courseCategories = [
 ];
 
 function Courses() {
+  const navigate = useNavigate();
+
   return (
     <section className="courses-section" id="courses">
       <div className="courses-container">
@@ -53,23 +55,37 @@ function Courses() {
         </div>
 
         <div className="courses-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
-          {courseCategories.map((course, index) => (
-            <div className="course-card" key={index} data-aos="fade-up" data-aos-delay={(index % 5) * 80}>
-              <div className="course-image">
-                <img src={course.image} alt={course.name} />
-              </div>
-              <div className="course-content">
-                <div style={{ display: 'inline-block', fontSize: '11px', fontWeight: '800', color: '#ea580c', background: '#fff3ed', padding: '3px 10px', borderRadius: '15px', marginBottom: '8px', alignSelf: 'flex-start' }}>
-                  {course.badge}
+          {courseCategories.map((course, index) => {
+            const courseUrl = course.link || "/generative-ai";
+            return (
+              <div 
+                className="course-card" 
+                key={index} 
+                data-aos="fade-up" 
+                data-aos-delay={(index % 5) * 80}
+                onClick={() => navigate(courseUrl)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="course-image">
+                  <img src={course.image} alt={course.name} />
                 </div>
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-                <Link to={course.link} className="course-btn">
-                  {course.name.includes("Custom") ? "Customize Curriculum →" : "Explore Course →"}
-                </Link>
+                <div className="course-content">
+                  <div style={{ display: 'inline-block', fontSize: '11px', fontWeight: '800', color: '#ea580c', background: '#fff3ed', padding: '3px 10px', borderRadius: '15px', marginBottom: '8px', alignSelf: 'flex-start' }}>
+                    {course.badge}
+                  </div>
+                  <h3>{course.name}</h3>
+                  <p>{course.description}</p>
+                  <Link 
+                    to={courseUrl} 
+                    className="course-btn"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {course.name.includes("Custom") ? "Customize Curriculum \u2192" : "Explore Course \u2192"}
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

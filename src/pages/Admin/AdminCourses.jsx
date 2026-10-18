@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import useFirebaseData from '../../hooks/useFirebaseData';
 import './Admin.css';
 
@@ -10,7 +10,7 @@ const AdminCourses = () => {
       category: "Artificial Intelligence",
       description: "Master LLMs, prompt engineering, and building AI applications with modern frameworks.",
       image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=800&q=80",
-      link: "/courses"
+      link: "/generative-ai"
     },
     {
       id: 2,
@@ -173,7 +173,7 @@ const AdminCourses = () => {
                 disabled={isUploading}
               />
               {isUploading && <span style={{ fontSize: '12px', color: '#ea580c' }}>Uploading PDF...</span>}
-              {!isUploading && formData.curriculumPdf && <small style={{ color: 'green', display: 'block', marginTop: '5px' }}>✓ PDF uploaded successfully.</small>}
+              {!isUploading && formData.curriculumPdf && <small style={{ color: 'green', display: 'block', marginTop: '5px' }}>âœ“ PDF uploaded successfully.</small>}
               
               <label style={{ marginTop: '15px' }}>Course Page Link</label>
               <select required value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})}>
