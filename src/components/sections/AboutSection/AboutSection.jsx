@@ -32,13 +32,13 @@ const codewizenSteps = [
 function AboutSection() {
   return (
     <section className="about-section codewizen-way-section" id="about">
-      {/* Decorative background elements */}
-      <div className="about-decor decor-top-left"></div>
-      <div className="about-decor decor-bottom-right"></div>
+      {/* Decorative animated background elements */}
+      <div className="about-decor decor-top-left animate-rotate-slow"></div>
+      <div className="about-decor decor-bottom-right animate-float-slow"></div>
 
       <div className="about-container">
         {/* TOP CONTENT */}
-        <div className="about-content">
+        <div className="about-content" data-aos="fade-up">
           <div className="about-label-wrapper">
             <span className="about-label-line"></span>
             <span className="about-label">THE CODEWIZEN WAY</span>
@@ -58,11 +58,16 @@ function AboutSection() {
           </p>
         </div>
 
-        {/* FOUR-STEP LEARNING PROCESS */}
+        {/* FOUR-STEP LEARNING PROCESS WITH STAGGERED DELAY */}
         <div className="way-steps-container">
           <div className="way-steps-grid">
-            {codewizenSteps.map((item) => (
-              <div className="way-step-card" key={item.step}>
+            {codewizenSteps.map((item, index) => (
+              <div 
+                className={`way-step-card ${item.step === "3" ? "highlight-step" : ""}`} 
+                key={item.step}
+                data-aos="fade-up"
+                data-aos-delay={(index + 1) * 120}
+              >
                 <div className="way-step-number">{item.step}</div>
                 <div className="way-step-body">
                   <h4>{item.title}</h4>
@@ -74,15 +79,15 @@ function AboutSection() {
         </div>
 
         {/* HIGHLIGHT STATEMENT */}
-        <div className="way-highlight-statement">
+        <div className="way-highlight-statement" data-aos="zoom-in" data-aos-delay="500">
           <p>
-            “Your resume won't say ‘completed a course.’ It will say ‘worked on a live client project.’”
+            &ldquo;Your resume won't say 'completed a course.' It will say 'worked on a live client project.'&rdquo;
           </p>
         </div>
 
         {/* BUTTON */}
-        <div className="way-cta-wrapper">
-          <Link to="/free-demo" className="way-btn-primary">
+        <div className="way-cta-wrapper" data-aos="fade-up" data-aos-delay="600">
+          <Link to="/contact-us" className="way-btn-primary">
             Book Free Demo
           </Link>
         </div>

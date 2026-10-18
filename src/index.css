@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --color-primary: #1e3a8a;
+  --color-secondary: #0ea5e9;
+  --color-accent: #FF8A00;
+  
+  --bg-white: #ffffff;
+  --bg-light-cool: #f8fafc;
+  --bg-light-warm: #fffbeb;
+  --bg-light-accent: #eff6ff;
+  --bg-light-neutral: #f1f5f9;
+  --bg-dark: #0f172a;
+  
+  --text-dark: #0f172a;
+  --text-muted: #475569;
+  --text-light: #f8fafc;
+  
+  --font-main: 'Inter', sans-serif;
+}
+
+/* =========================================
+   RESET & SMOOTH SCROLLING
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background: var(--bg-white);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================
+   GLOBAL BUTTONS WITH MICRO-ANIMATIONS
+========================================= */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #112255;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(17, 34, 85, 0.2);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  background-color: #1a3680;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(17, 34, 85, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: transparent;
+  color: #112255 !important;
+  border: 1.5px solid #112255;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background-color: rgba(17, 34, 85, 0.06);
+  transform: translateY(-2px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   CARD HOVER ELEVATIONS & ANIMATIONS
+========================================= */
+
+.course-card, 
+.t-course-card, 
+.benefit-card, 
+.placement-card, 
+.stat-card,
+.review-card, 
+.bundle-card, 
+.offer-card, 
+.diff-card, 
+.collab-card,
+.about-project-card, 
+.feature-card, 
+.price-card, 
+.workshop-card,
+.journey-step-item, 
+.way-step-card,
+.batch-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease !important;
+  will-change: transform, box-shadow;
+}
+
+.course-card:hover, 
+.t-course-card:hover, 
+.benefit-card:hover, 
+.placement-card:hover, 
+.review-card:hover, 
+.bundle-card:hover, 
+.offer-card:hover, 
+.diff-card:hover, 
+.collab-card:hover,
+.about-project-card:hover, 
+.feature-card:hover, 
+.price-card:hover, 
+.workshop-card:hover,
+.journey-step-item:hover, 
+.way-step-card:hover,
+.batch-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 36px rgba(17, 34, 85, 0.12) !important;
+}
+
+/* Image container zoom on hover */
+.about-intro-image,
+.course-image,
+.t-course-image,
+.about-image-wrapper,
+.batch-img-wrapper {
+  overflow: hidden;
+}
+
+.about-intro-image img,
+.course-image img,
+.t-course-image img,
+.about-image-wrapper img,
+.batch-img-wrapper img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.course-card:hover .course-image img,
+.t-course-card:hover .t-course-image img,
+.about-intro-image:hover img,
+.batch-card:hover .batch-img-wrapper img {
+  transform: scale(1.04);
+}
+
+/* =========================================
+   KEYFRAME ANIMATIONS
+========================================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(232, 117, 0, 0.35);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(232, 117, 0, 0.5);
+  }
+}
+
+/* Subtle float utility */
+.animate-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+/* =========================================
+   STAGGER TRANSITION UTILITIES
+========================================= */
+
+.stagger-item {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* =========================================
+   SCROLL ANIMATION UTILITY (IntersectionObserver)
+========================================= */
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+[data-animate].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide-in from left variant */
+[data-animate-left] {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: 
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+[data-animate-left].visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide-in from right variant */
+[data-animate-right] {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: 
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+[data-animate-right].visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale-in variant */
+[data-animate-scale] {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: 
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+[data-animate-scale].visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* =========================================
+   ACCESSIBILITY: RESPECT REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

@@ -1,16 +1,58 @@
 /* ================================================
-   HERO SECTION — Exact Reference Design Match
+   HERO SECTION — Animated Premium Design
 ================================================ */
+
+/* ── Keyframes ── */
+@keyframes heroFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroSlideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroPopIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes heroPlusSpin {
+  0%   { transform: rotate(0deg) scale(1); opacity: 0.6; }
+  50%  { transform: rotate(180deg) scale(1.2); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.6; }
+}
+
+@keyframes heroBackdropShimmer {
+  0%, 100% { opacity: 0.95; }
+  50%       { opacity: 1; box-shadow: 0 0 60px rgba(255, 133, 0, 0.08); }
+}
+
+@keyframes heroCirclePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.15); opacity: 0.7; }
+}
+
+@keyframes heroDotFade {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.7; }
+}
 
 .hero-section {
   position: relative;
   width: 100%;
   min-height: 800px;
-  background-color: #f3f6fc; /* Very light blue background */
+  background-color: #f3f6fc;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 120px 0 0; /* Space for navbar */
+  padding: 120px 0 0;
   z-index: 1;
 }
 
@@ -32,16 +74,19 @@
   background-image: radial-gradient(rgba(30, 58, 138, 0.2) 2px, transparent 2px);
   background-size: 20px 20px;
   z-index: -1;
+  animation: heroDotFade 3s ease-in-out infinite;
 }
 
 .top-left {
   top: 50px;
   left: 50px;
+  animation-delay: 0s;
 }
 
 .top-right {
   top: 50px;
   right: 150px;
+  animation-delay: 1.5s;
 }
 
 .hero-plus-icon {
@@ -51,8 +96,9 @@
   font-size: 24px;
   font-weight: 400;
   color: #1e3a8a;
-  opacity: 0.8;
   z-index: -1;
+  animation: heroPlusSpin 8s linear infinite;
+  transform-origin: center;
 }
 
 /* ── Container ── */
@@ -78,6 +124,17 @@
   position: relative;
   z-index: 2;
 }
+
+/* Staggered entrance for each child of hero-left */
+.hero-left > * {
+  animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+.hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+.hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+.hero-left > *:nth-child(5) { animation-delay: 0.7s; }
+.hero-left > *:nth-child(6) { animation-delay: 0.85s; }
 
 /* ── Eyebrow ── */
 .hero-eyebrow-wrapper {
@@ -223,12 +280,14 @@
   z-index: 2;
   display: flex;
   justify-content: flex-end;
+  animation: heroSlideInRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 .hero-image-wrapper {
   position: relative;
   width: 100%;
   max-width: 600px;
+  animation: heroFloat 6s ease-in-out 1.2s infinite;
 }
 
 /* ── Dark Blue Organic Blob Backdrop ── */
@@ -236,11 +295,12 @@
   position: absolute;
   top: -30px;
   right: -50px;
-  bottom: -150px; /* Extends way down to meet the wave */
+  bottom: -150px;
   left: -20px;
-  background-color: #0b2059; /* Deep Navy */
-  border-radius: 40px 0 0 100px; /* Custom organic shape */
+  background-color: #0b2059;
+  border-radius: 40px 0 0 100px;
   z-index: 0;
+  animation: heroBackdropShimmer 5s ease-in-out infinite;
 }
 
 /* Orange decorative line */
@@ -265,6 +325,7 @@
   border: 2px solid #e87500;
   border-radius: 50%;
   z-index: 1;
+  animation: heroCirclePulse 3s ease-in-out infinite;
 }
 
 /* Main Image Container */
@@ -282,6 +343,11 @@
   height: 500px;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-img-container:hover .hero-main-img {
+  transform: scale(1.04);
 }
 
 /* ── Practical Learning Card ── */
@@ -297,6 +363,13 @@
   gap: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   z-index: 10;
+  animation: heroPopIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-practical-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
 }
 
 .practical-icon {

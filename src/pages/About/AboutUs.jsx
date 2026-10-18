@@ -96,7 +96,7 @@ const AboutUs = () => {
       <section className="about-hero">
         <div className="about-hero-dot-grid"></div>
         <div className="about-hero-container" data-aos="fade-up">
-          <nav className="breadcrumbs" style={{ marginBottom: "20px" }}>
+          <nav className="breadcrumbs" aria-label="Breadcrumb">
             <ul>
               <li><Link to="/">Home</Link></li>
               <li className="separator">/</li>
@@ -145,16 +145,20 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* ── 3. WHO WE ARE ── */}
+      {/* ── 3. WHO WE ARE (Why Codewizen Exists) ── */}
       <section className="about-intro" id="who-we-are">
         <div className="about-intro-container">
           <div className="about-intro-image" data-aos="fade-right">
-            <img src="/about_image.jpg" alt="Codewizen Training and Live Projects" />
+            <img 
+              src="/instructor_guide.jpg" 
+              alt="Instructor guiding a student while coding" 
+              loading="lazy"
+            />
             <div className="about-intro-badge">
               <span>🚀</span>
               <div>
                 <strong>Skills First. Real Work Next.</strong>
-                <span>Live Apps & Production Projects</span>
+                <span>Live Mentorship & Production Projects</span>
               </div>
             </div>
           </div>
@@ -291,7 +295,7 @@ const AboutUs = () => {
             ))}
           </div>
 
-          <div className="about-projects-cta">
+          <div className="about-projects-cta" data-aos="fade-up">
             <Link to="/project-training" className="about-btn-primary">
               View Live Projects
             </Link>
@@ -307,7 +311,7 @@ const AboutUs = () => {
             Join Codewizen, learn live, work on real client projects, and build a resume that interviewers take seriously.
           </p>
           <div className="about-cta-btns">
-            <Link to="/free-demo" className="about-btn-primary about-cta-demo">
+            <Link to="/contact-us" className="about-btn-primary about-cta-demo">
               Book Free Demo
             </Link>
             <Link to="/contact-us" className="about-btn-secondary about-btn-light">

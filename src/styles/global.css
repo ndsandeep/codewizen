@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   --color-primary: #1e3a8a;
@@ -16,11 +16,13 @@
   --text-muted: #475569;
   --text-light: #f8fafc;
   
-  --font-main: 'Inter', sans-serif;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-elevation: 0 16px 36px rgba(17, 34, 85, 0.12);
 }
 
 /* =========================================
-   RESET
+   RESET & SMOOTH SCROLLING
 ========================================= */
 
 * {
@@ -39,54 +41,363 @@ body {
   background: var(--bg-white);
   color: var(--text-dark);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 a {
   text-decoration: none;
+  transition: color 0.25s ease;
 }
 
-/* Global Buttons */
-.btn-primary {
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================
+   PAGE ROUTE TRANSITIONS
+========================================= */
+
+.page-route-enter {
+  animation: pageFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   GLOBAL BUTTONS WITH MICRO-ANIMATIONS
+========================================= */
+
+.btn-primary,
+.hero-btn-primary,
+.about-btn-primary,
+.way-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 9px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   background-color: #112255;
   color: #ffffff !important;
   box-shadow: 0 4px 15px rgba(17, 34, 85, 0.2);
   border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-primary:hover {
+/* Shimmer gleam effect on button hover */
+.btn-primary::after,
+.hero-btn-primary::after,
+.about-btn-primary::after,
+.way-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: none;
+}
+
+.btn-primary:hover::after,
+.hero-btn-primary:hover::after,
+.about-btn-primary:hover::after,
+.way-btn-primary:hover::after {
+  left: 140%;
+  transition: left 0.75s ease-in-out;
+}
+
+.btn-primary:hover,
+.hero-btn-primary:hover,
+.about-btn-primary:hover,
+.way-btn-primary:hover {
   background-color: #1a3680;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(17, 34, 85, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(17, 34, 85, 0.32);
 }
 
-.btn-outline {
+.btn-primary:active,
+.hero-btn-primary:active,
+.about-btn-primary:active,
+.way-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-outline,
+.hero-btn-secondary,
+.about-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 15px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 9px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   background-color: transparent;
   color: #112255 !important;
-  border: 1.5px solid #112255;
+  border: 2px solid #112255;
   cursor: pointer;
 }
 
-.btn-outline:hover {
-  background-color: rgba(17, 34, 85, 0.05);
+.btn-outline:hover,
+.hero-btn-secondary:hover,
+.about-btn-secondary:hover {
+  background-color: #112255;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(17, 34, 85, 0.15);
+}
+
+.btn-outline:active,
+.hero-btn-secondary:active,
+.about-btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   CARD HOVER ELEVATIONS & ANIMATIONS
+========================================= */
+
+.course-card, 
+.t-course-card, 
+.benefit-card, 
+.placement-card, 
+.stat-card,
+.review-card, 
+.bundle-card, 
+.offer-card, 
+.diff-card, 
+.collab-card,
+.about-project-card, 
+.feature-card, 
+.price-card, 
+.workshop-card,
+.journey-step-item, 
+.way-step-card,
+.home-batch-card,
+.batch-card,
+.p-feature,
+.stat-box {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease !important;
+  will-change: transform, box-shadow;
+}
+
+.course-card:hover, 
+.t-course-card:hover, 
+.benefit-card:hover, 
+.placement-card:hover, 
+.review-card:hover, 
+.bundle-card:hover, 
+.offer-card:hover, 
+.diff-card:hover, 
+.collab-card:hover,
+.about-project-card:hover, 
+.feature-card:hover, 
+.price-card:hover, 
+.workshop-card:hover,
+.journey-step-item:hover, 
+.way-step-card:hover,
+.home-batch-card:hover,
+.batch-card:hover,
+.p-feature:hover,
+.stat-box:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: var(--shadow-elevation) !important;
+}
+
+/* Image container zoom on hover */
+.about-intro-image,
+.course-image,
+.t-course-image,
+.about-image-wrapper,
+.batch-img-wrapper,
+.hero-img-container {
+  overflow: hidden;
+}
+
+.about-intro-image img,
+.course-image img,
+.t-course-image img,
+.about-image-wrapper img,
+.batch-img-wrapper img,
+.hero-main-img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.course-card:hover .course-image img,
+.t-course-card:hover .t-course-image img,
+.about-intro-image:hover img,
+.batch-card:hover .batch-img-wrapper img,
+.hero-image-wrapper:hover .hero-main-img {
+  transform: scale(1.05);
+}
+
+/* =========================================
+   KEYFRAME ANIMATIONS
+========================================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(232, 117, 0, 0.35);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(232, 117, 0, 0.55);
+  }
+}
+
+@keyframes slowRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes badgePing {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(232, 117, 0, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(232, 117, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(232, 117, 0, 0);
+  }
+}
+
+/* Continuous ambient utility classes */
+.animate-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+  animation: slowRotate 25s linear infinite;
+}
+
+/* Pulsing Badge Indicator */
+.badge-pulse {
+  animation: badgePing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Live indicator dot */
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: badgePing 1.8s infinite;
+  margin-right: 6px;
+}
+
+/* =========================================
+   STAGGER TRANSITION UTILITIES
+========================================= */
+
+.stagger-item {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* =========================================
+   ACCESSIBILITY: RESPECT REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,5 +1,5 @@
-/* ================================================
-   ABOUT US PAGE — Premium Design
+﻿/* ================================================
+   ABOUT US PAGE — Premium Animated Design
 ================================================ */
 
 /* Shared utilities */
@@ -18,35 +18,48 @@
 }
 
 .about-btn-primary {
-  display: inline-block;
-  padding: 14px 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
   background-color: #e87500;
-  color: #ffffff;
+  color: #ffffff !important;
   border-radius: 8px;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(232, 117, 0, 0.35);
-  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  cursor: pointer;
 }
 
 .about-btn-primary:hover {
   background-color: #c96500;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(232, 117, 0, 0.45);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(232, 117, 0, 0.45);
+}
+
+.about-btn-primary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .about-btn-secondary {
-  display: inline-block;
-  padding: 14px 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
   background-color: transparent;
-  color: #0b1f4f;
+  color: #0b1f4f !important;
   border: 1.5px solid #0b1f4f;
   border-radius: 8px;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
-  transition: background-color 0.25s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
 .about-btn-secondary:hover {
@@ -61,13 +74,14 @@
 
 .about-btn-light:hover {
   background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: #ffffff !important;
 }
 
 /* ── 1. ABOUT HERO ── */
 .about-hero {
   position: relative;
   background: linear-gradient(135deg, #0b1f4f 0%, #0f3d82 60%, #173a7c 100%);
-  padding: 95px 0 0;
+  padding: 160px 0 0; /* Clear fixed navbar with generous, comfortable breathing space */
   overflow: hidden;
   text-align: center;
   color: #ffffff;
@@ -84,9 +98,61 @@
 .about-hero-container {
   position: relative;
   z-index: 2;
-  max-width: 880px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 24px 60px;
+  padding: 0 24px 65px;
+}
+
+/* Polished Breadcrumb Navigation with generous spacing */
+.about-hero .breadcrumbs {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.about-hero .breadcrumbs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 9px 22px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.about-hero .breadcrumbs ul:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.about-hero .breadcrumbs li {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.about-hero .breadcrumbs li a {
+  color: #f59e0b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.about-hero .breadcrumbs li a:hover {
+  color: #fbbf24;
+  text-decoration: underline;
+}
+
+.about-hero .breadcrumbs .separator {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
 }
 
 .about-hero-label {
@@ -102,7 +168,7 @@
 }
 
 .about-hero h1 {
-  font-size: clamp(32px, 4vw, 52px);
+  font-size: clamp(32px, 4.2vw, 52px);
   font-weight: 800;
   line-height: 1.2;
   color: #ffffff;
@@ -154,6 +220,12 @@
   text-align: center;
   padding: 34px 20px;
   border-right: 1px solid #e2e8f0;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.about-stat:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
 }
 
 .about-stat:last-child {
@@ -175,9 +247,9 @@
   letter-spacing: 0.5px;
 }
 
-/* ── 3. WHO WE ARE ── */
+/* ── 3. WHO WE ARE (Why Codewizen Exists) ── */
 .about-intro {
-  padding: 90px 20px;
+  padding: 95px 20px;
   background: #ffffff;
 }
 
@@ -189,18 +261,26 @@
   gap: 65px;
 }
 
+/* Left Side: Photo Container */
 .about-intro-image {
   flex: 1;
-  max-width: 45%;
+  max-width: 48%;
   position: relative;
 }
 
 .about-intro-image img {
   width: 100%;
-  border-radius: 18px;
+  height: 480px;
+  border-radius: 20px;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
   object-fit: cover;
-  height: 440px;
+  object-position: center top;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-intro-image:hover img {
+  transform: scale(1.02);
 }
 
 .about-intro-badge {
@@ -209,13 +289,15 @@
   right: -20px;
   background: #0b1f4f;
   color: #ffffff;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
   box-shadow: 0 10px 30px rgba(11, 31, 79, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 3;
+  animation: gentleFloat 4s ease-in-out infinite;
 }
 
 .about-intro-badge span:first-child {
@@ -238,9 +320,10 @@
   opacity: 0.85;
 }
 
+/* Right Side: Content */
 .about-intro-content {
   flex: 1;
-  max-width: 55%;
+  max-width: 52%;
 }
 
 .about-intro-content h2 {
@@ -293,7 +376,7 @@
 
 /* ── 4. OUR COLLABORATIONS ── */
 .about-collab {
-  padding: 85px 20px;
+  padding: 90px 20px;
   background: #f8fafc;
   border-top: 1px solid #e2e8f0;
   border-bottom: 1px solid #e2e8f0;
@@ -343,12 +426,13 @@
   padding: 28px 22px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .collab-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
 }
 
 .collab-icon {
@@ -378,7 +462,7 @@
 
 /* ── 5. MISSION & VISION ── */
 .about-mv {
-  padding: 85px 20px;
+  padding: 90px 20px;
   background: #eff6ff;
 }
 
@@ -396,6 +480,12 @@
   padding: 42px 36px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-mv-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(17, 34, 85, 0.08);
 }
 
 .mv-icon {
@@ -459,16 +549,16 @@
   border: 1px solid #e2e8f0;
   border-radius: 14px;
   padding: 24px 28px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .journey-step-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: #cbd5e1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
 }
 
-/* Step 3 Highlight (matching PDF green highlight) */
+/* Step 3 Highlight */
 .journey-step-item:nth-child(3) {
   background: #f0fdf4;
   border-color: #86efac;
@@ -509,7 +599,7 @@
 
 /* ── 7. LIVE PROJECT HIGHLIGHT ── */
 .about-projects {
-  padding: 90px 20px;
+  padding: 95px 20px;
   background: #f8fafc;
   border-top: 1px solid #e2e8f0;
 }
@@ -552,12 +642,13 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about-project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
+  border-color: #cbd5e1;
 }
 
 .project-badge {
@@ -657,6 +748,12 @@
   background-color: #c96500 !important;
 }
 
+/* ── KEYFRAME ANIMATIONS ── */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .about-collab-grid {
@@ -668,6 +765,10 @@
 }
 
 @media (max-width: 900px) {
+  .about-hero {
+    padding: 135px 0 0;
+  }
+
   .about-intro-container {
     flex-direction: column;
     gap: 45px;
@@ -676,14 +777,15 @@
   .about-intro-image,
   .about-intro-content {
     max-width: 100%;
+    width: 100%;
   }
 
   .about-intro-image img {
-    height: 320px;
+    height: 380px;
   }
 
   .about-intro-badge {
-    right: 10px;
+    right: 15px;
     bottom: -15px;
   }
 
@@ -693,6 +795,10 @@
 }
 
 @media (max-width: 768px) {
+  .about-hero {
+    padding: 125px 0 0;
+  }
+
   .about-stats-container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -719,6 +825,18 @@
     flex-direction: column;
     gap: 14px;
     padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-intro-image img {
+    height: 280px;
+  }
+
+  .about-hero .breadcrumbs ul {
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
   }
 }
 

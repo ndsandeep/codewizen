@@ -10,22 +10,24 @@
 .about-decor {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
   pointer-events: none;
 }
 
 .decor-top-left {
-  width: 450px;
-  height: 450px;
+  width: 500px;
+  height: 500px;
   top: -150px;
   left: -150px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
 }
 
 .decor-bottom-right {
-  width: 600px;
-  height: 600px;
+  width: 650px;
+  height: 650px;
   bottom: -200px;
   right: -200px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
 }
 
 .about-container {
@@ -108,27 +110,39 @@
   gap: 24px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 4px solid #2563eb;
   border-radius: 14px;
   padding: 22px 28px;
   backdrop-filter: blur(10px);
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .way-step-card:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateX(8px) translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Step 3 Highlight (matching PDF page 1 green accent) */
+/* Step 3 Highlight */
+.way-step-card.highlight-step,
 .way-step-card:nth-child(3) {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-left: 4px solid #10b981;
 }
 
+.way-step-card.highlight-step:hover,
+.way-step-card:nth-child(3):hover {
+  background: rgba(16, 185, 129, 0.18);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.2);
+}
+
+.way-step-card.highlight-step .way-step-number,
 .way-step-card:nth-child(3) .way-step-number {
   background: #10b981;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+  animation: subtlePulse 3s ease-in-out infinite;
 }
 
 .way-step-number {
@@ -137,13 +151,18 @@
   min-width: 48px;
   background: #2563eb;
   color: #ffffff;
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
   font-weight: 800;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.way-step-card:hover .way-step-number {
+  transform: scale(1.1);
 }
 
 .way-step-body h4 {
@@ -165,10 +184,17 @@
   max-width: 920px;
   margin: 40px auto 0;
   border: 2px solid #10b981;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 24px 30px;
   text-align: center;
-  background: rgba(16, 185, 129, 0.08);
+  background: rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.way-highlight-statement:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.25);
 }
 
 .way-highlight-statement p {
@@ -185,46 +211,18 @@
   margin-top: 45px;
 }
 
-.way-btn-primary {
-  display: inline-block;
-  padding: 16px 38px;
-  background-color: #e87500;
-  color: #ffffff;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  box-shadow: 0 8px 24px rgba(232, 117, 0, 0.35);
-  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.way-btn-primary:hover {
-  background-color: #c96500;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(232, 117, 0, 0.45);
-}
-
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .about-section.codewizen-way-section {
-    padding: 70px 0 80px;
-  }
-  .codewizen-way-title {
-    font-size: 32px;
-  }
-  .codewizen-way-subtitle {
-    font-size: 20px;
-  }
-  .codewizen-way-desc {
-    font-size: 15px;
+    padding: 60px 0 70px;
   }
   .way-step-card {
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-  }
-  .way-highlight-statement {
     padding: 18px 20px;
+    gap: 16px;
+  }
+  .way-step-number {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 18px;
   }
 }
