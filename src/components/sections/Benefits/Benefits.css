@@ -1,5 +1,5 @@
-/* =========================================
-   STORY SECTION - PROVOCATIVE REALITY & CLOUD THOUGHTS
+﻿/* =========================================
+   STORY SECTION - PROVOCATIVE REALITY & SEQUENTIAL CLOUD THOUGHTS
 ========================================= */
 
 .benefits-section {
@@ -17,7 +17,7 @@
   z-index: 2;
 }
 
-/* ── Section Header ── */
+/* ─── Section Header ─── */
 .benefits-section .section-header {
   text-align: center;
   max-width: 820px;
@@ -52,7 +52,7 @@
   font-weight: 500;
 }
 
-/* ── Compact Story Container ── */
+/* ─── Compact Story Container ─── */
 .story-container-compact {
   background: #ffffff;
   border-radius: 28px;
@@ -91,38 +91,44 @@
   border-bottom: 2px solid #fdba74;
 }
 
-/* ── AUTOMATIC CLOUD-TYPE BORDER THOUGHT POP-UP ── */
+/* ─── SEQUENTIAL CLOUD THOUGHT POP-UP WRAPPER ─── */
 .thought-cloud-wrapper {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transform: translateY(-10px) scale(0.95);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(22px) scale(0.96);
+  pointer-events: none;
   margin: 0;
+  transition: 
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    max-height 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    margin 0.45s ease;
 }
 
 .thought-cloud-wrapper.visible {
-  max-height: 200px;
+  max-height: 250px;
   opacity: 1;
   overflow: visible;
   transform: translateY(0) scale(1);
-  margin: 12px 0 16px;
+  margin: 14px 0 18px;
+  pointer-events: auto;
 }
 
-/* Cloud Bubble Styling */
-.thought-cloud-bubble {
-  position: relative;
-  background: #ffffff;
-  padding: 16px 24px;
-  cursor: pointer;
-  border-radius: 35px 45px 35px 25px; /* Organic cloud shape */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  animation: cloudFloat 4s ease-in-out infinite;
-  transition: all 0.25s ease;
+/* Cloud Bubble Entrance & Idle Floating Animation */
+.thought-cloud-wrapper.visible .thought-cloud-bubble {
+  animation: popInNotification 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards, cloudFloat 4s ease-in-out 0.7s infinite;
 }
 
-.thought-cloud-bubble:hover {
-  transform: translateY(-3px) scale(1.01);
+@keyframes popInNotification {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes cloudFloat {
@@ -134,7 +140,23 @@
   }
 }
 
-/* Different Cloud Accents */
+/* Cloud Bubble Base Styling */
+.thought-cloud-bubble {
+  position: relative;
+  background: #ffffff;
+  padding: 16px 24px;
+  cursor: pointer;
+  border-radius: 35px 45px 35px 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.thought-cloud-bubble:hover {
+  transform: translateY(-3px) scale(1.01) !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Distinct Accent Borders */
 .thought-cloud-bubble.cloud-orange {
   border: 2px dashed #ea580c;
   background: linear-gradient(135deg, #fffaf5 0%, #fff4ed 100%);
@@ -192,7 +214,7 @@
   margin: 0;
 }
 
-/* The Comic Cloud Tail dots */
+/* Comic Cloud Tail dots */
 .cloud-tail {
   position: absolute;
   bottom: -15px;
@@ -214,7 +236,7 @@
 .tail-dot.d-2 { width: 6px; height: 6px; margin-top: 4px; }
 .tail-dot.d-3 { width: 4px; height: 4px; margin-top: 8px; }
 
-/* ── The Codewizen Solution Highlight ── */
+/* ─── The Codewizen Solution Highlight ─── */
 .story-solution-highlight {
   background: linear-gradient(135deg, #f0fdf4 0%, #e6fcf0 100%);
   border: 1.5px solid #86efac;
@@ -238,7 +260,7 @@
   margin: 0;
 }
 
-/* ── Reality Stats Strip ── */
+/* ─── Reality Stats Strip ─── */
 .reality-stats-strip {
   display: flex;
   align-items: center;
@@ -272,7 +294,7 @@
   margin-top: 4px;
 }
 
-/* ── INSIGHT MINI MODAL (ON CLICK OF CLOUD) ── */
+/* ─── INSIGHT MINI MODAL (ON CLICK OF CLOUD) ─── */
 .insight-modal-overlay {
   position: fixed;
   inset: 0;
@@ -381,7 +403,24 @@
   background: #ea580c;
 }
 
-/* ── Responsive ── */
+/* ─── Accessibility: Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .thought-cloud-wrapper {
+    max-height: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    margin: 14px 0 18px !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+  .thought-cloud-wrapper.visible .thought-cloud-bubble,
+  .thought-cloud-bubble {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .benefits-section {
     padding: 65px 0;

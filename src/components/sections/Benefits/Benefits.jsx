@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import "./Benefits.css";
 import { FaTimes, FaCheck, FaLightbulb, FaExclamationCircle } from "react-icons/fa";
 
 function Benefits() {
-  // Staggered automatic pop-up states for the cloud thought bubbles
+  // Sequential pop-up states for the three "STUDENT THINKS" boxes
   const [showCloud1, setShowCloud1] = useState(false);
   const [showCloud2, setShowCloud2] = useState(false);
   const [showCloud3, setShowCloud3] = useState(false);
@@ -11,16 +11,94 @@ function Benefits() {
   // Modal insight trigger state if student wants more detail
   const [selectedInsight, setSelectedInsight] = useState(null);
 
+  // Section reference for viewport entrance detection
+  const sectionRef = useRef(null);
+  const timer1Ref = useRef(null);
+  const timer2Ref = useRef(null);
+  const timer3Ref = useRef(null);
+  const isPlayingRef = useRef(false);
+
   useEffect(() => {
-    // Automatically reveal cloud thoughts one by one as student reads
-    const t1 = setTimeout(() => setShowCloud1(true), 1200);
-    const t2 = setTimeout(() => setShowCloud2(true), 3200);
-    const t3 = setTimeout(() => setShowCloud3(true), 5200);
+    // Respect user's reduced-motion accessibility preference
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      setShowCloud1(true);
+      setShowCloud2(true);
+      setShowCloud3(true);
+      return;
+    }
+
+    const clearTimers = () => {
+      if (timer1Ref.current) clearTimeout(timer1Ref.current);
+      if (timer2Ref.current) clearTimeout(timer2Ref.current);
+      if (timer3Ref.current) clearTimeout(timer3Ref.current);
+    };
+
+    const resetClouds = () => {
+      clearTimers();
+      isPlayingRef.current = false;
+      setShowCloud1(false);
+      setShowCloud2(false);
+      setShowCloud3(false);
+    };
+
+    const startSequence = () => {
+      if (isPlayingRef.current) return;
+      isPlayingRef.current = true;
+      clearTimers();
+
+      // Reset first to ensure clean entrance
+      setShowCloud1(false);
+      setShowCloud2(false);
+      setShowCloud3(false);
+
+      // Pop-up 1 appears after ~1.8 seconds of viewing this section
+      timer1Ref.current = setTimeout(() => {
+        setShowCloud1(true);
+
+        // Pop-up 2 appears ~3.2 seconds after Pop-up 1
+        timer2Ref.current = setTimeout(() => {
+          setShowCloud2(true);
+
+          // Pop-up 3 appears ~3.2 seconds after Pop-up 2
+          timer3Ref.current = setTimeout(() => {
+            setShowCloud3(true);
+          }, 3200);
+        }, 3200);
+      }, 1800);
+    };
+
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      startSequence();
+      return;
+    }
+
+    // Trigger every time the user comes to this section, and reset when they leave
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+          startSequence();
+        } else if (!entry.isIntersecting || entry.intersectionRatio < 0.05) {
+          resetClouds();
+        }
+      },
+      {
+        threshold: [0, 0.05, 0.2, 0.35]
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      if (observer) observer.disconnect();
+      clearTimers();
     };
   }, []);
 
@@ -43,7 +121,7 @@ function Benefits() {
   };
 
   return (
-    <section className="benefits-section" id="benefits">
+    <section className="benefits-section" id="benefits" ref={sectionRef}>
       <div className="benefits-container">
         
         {/* Provocative Header That Makes Students Pause and Think */}
@@ -69,7 +147,7 @@ function Benefits() {
             <div className={`thought-cloud-wrapper ${showCloud1 ? "visible" : ""}`}>
               <div className="thought-cloud-bubble cloud-orange" onClick={() => setSelectedInsight("ats")}>
                 <div className="cloud-inner">
-                  <div className="cloud-avatar">💭</div>
+                  <div className="cloud-avatar">🤔</div>
                   <div className="cloud-text">
                     <span className="cloud-title">STUDENT THINKS:</span>
                     <p className="cloud-query">"Wait... Does my resume even pass the 6-second ATS bot filter, or am I getting rejected automatically?"</p>
@@ -92,7 +170,7 @@ function Benefits() {
             <div className={`thought-cloud-wrapper ${showCloud2 ? "visible" : ""}`}>
               <div className="thought-cloud-bubble cloud-blue" onClick={() => setSelectedInsight("tutorial")}>
                 <div className="cloud-inner">
-                  <div className="cloud-avatar">💭</div>
+                  <div className="cloud-avatar">🤔</div>
                   <div className="cloud-text">
                     <span className="cloud-title">STUDENT THINKS:</span>
                     <p className="cloud-query">"Am I just stuck in tutorial hell watching videos, instead of building real production systems?"</p>
@@ -115,7 +193,7 @@ function Benefits() {
             <div className={`thought-cloud-wrapper ${showCloud3 ? "visible" : ""}`}>
               <div className="thought-cloud-bubble cloud-green" onClick={() => setSelectedInsight("interview")}>
                 <div className="cloud-inner">
-                  <div className="cloud-avatar">💭</div>
+                  <div className="cloud-avatar">🤔</div>
                   <div className="cloud-text">
                     <span className="cloud-title">STUDENT THINKS:</span>
                     <p className="cloud-query">"Can I actually show a live deployed project on GitHub, or does my code only run on localhost?"</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import PageHero from '../../components/common/PageHero/PageHero';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaUser, FaChalkboardTeacher, FaPaperPlane } from 'react-icons/fa';
 import useFirebaseData from '../../hooks/useFirebaseData';
@@ -9,7 +9,7 @@ const ContactUs = () => {
     email: 'info@codewizen.com',
     phone: '+91 9676400893',
     whatsapp: '+91 9676400893',
-    address: '123 Tech Park, Madhapur, Hyderabad - 500081'
+    address: 'Flat No 101, R V Heights, Hitech City Kothaguda,'
   });
 
   const [formData, setFormData] = useState({
@@ -53,7 +53,7 @@ Interested Course: ${formData.course}`;
       
       <div className="contact-page-wrapper">
         
-        {/* ── QUICK CONTACT CARDS ── */}
+        {/* â”€â”€ QUICK CONTACT CARDS â”€â”€ */}
         <section className="contact-cards-section">
           <div className="contact-container">
             <div className="cc-grid">
@@ -76,14 +76,21 @@ Interested Course: ${formData.course}`;
                 <div className="cc-icon-wrapper"><FaMapMarkerAlt className="cc-icon" /></div>
                 <h3>Visit Us</h3>
                 <p>Drop by our institute for a face-to-face counseling session.</p>
-                <span className="cc-text">{contactInfo.address}</span>
+                <a 
+                  href="https://maps.app.goo.gl/DgGVjhvx31cUVycM9" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="cc-link cc-text"
+                >
+                  Flat No 101, R V Heights, Hitech City Kothaguda,
+                </a>
               </div>
 
             </div>
           </div>
         </section>
 
-        {/* ── SPLIT FORM SECTION ── */}
+        {/* â”€â”€ SPLIT FORM SECTION â”€â”€ */}
         <section className="contact-form-section">
           <div className="contact-container">
             <div className="cf-split">
@@ -162,7 +169,7 @@ Interested Course: ${formData.course}`;
           </div>
         </section>
 
-        {/* ── FULL WIDTH MAP ── */}
+        {/* â”€â”€ FULL WIDTH MAP â”€â”€ */}
         <section className="contact-map-section" data-aos="fade-up">
           <div className="contact-map-header">
             <h2>Find Us on Google Maps</h2>
@@ -171,7 +178,7 @@ Interested Course: ${formData.course}`;
           <div className="map-wrapper">
             <iframe
               title="Codewizen Location Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121808.52846983794!2d78.31015632306235!3d17.498305716886477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb911a68102bd3%3A0x67c2957b98ec1438!2sKukatpally%20Housing%20Board%20Colony%2C%20Kukatpally%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+              src="https://maps.google.com/maps?q=Flat+No+101,+R+V+Heights,+Hitech+City+Kothaguda&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
               width="100%"
               height="500"
               style={{ border: 0, display: 'block' }}
@@ -188,3 +195,4 @@ Interested Course: ${formData.course}`;
 };
 
 export default ContactUs;
+

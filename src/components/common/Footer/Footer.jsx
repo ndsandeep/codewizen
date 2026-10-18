@@ -1,4 +1,4 @@
-import "./Footer.css";
+﻿import "./Footer.css";
 
 import {
   FaFacebookF,
@@ -42,7 +42,7 @@ function Footer() {
     email: 'info@codewizen.com',
     phone: '+91 9676400893',
     whatsapp: '+91 9676400893',
-    address: '123 Tech Park, Madhapur, Hyderabad - 500081'
+    address: 'Flat No 101, R V Heights, Hitech City Kothaguda,'
   });
 
   return (
@@ -109,7 +109,7 @@ function Footer() {
 
 
               <p style={{ fontSize: '14px', lineHeight: '1.7', color: '#cbd5e1', marginBottom: '18px' }}>
-                Stop memorizing syntax — start engineering real systems. We bridge the gap between textbook coding and production environments through 100% interactive live training and real-time enterprise stacks.
+                Stop memorizing syntax â€” start engineering real systems. We bridge the gap between textbook coding and production environments through 100% interactive live training and real-time enterprise stacks.
               </p>
 
               {/* Inspiring Badge */}
@@ -123,17 +123,17 @@ function Footer() {
                 borderRadius: '10px',
                 marginBottom: '20px'
               }}>
-                <span style={{ fontSize: '16px' }}>🚀</span>
+                <span style={{ fontSize: '16px' }}>ðŸš€</span>
                 <span style={{ fontSize: '12.5px', fontWeight: '600', color: '#fed7aa', letterSpacing: '0.3px', lineHeight: '1.4' }}>
                   "Your code is your resume. Build things that make an impact."
                 </span>
               </div>
 
               <ul className="footer-highlights">
-                <span>⚡ 100% Real-Time Projects & Architectures</span>
-                <span>⚡ 100% Real-Time Industry Exposure</span>
-                <span>⚡ Live Interactive Mentor Sprints</span>
-                <span>⚡ Production Cloud Lab Deployments</span>
+                <span>âš¡ 100% Real-Time Projects & Architectures</span>
+                <span>âš¡ 100% Real-Time Industry Exposure</span>
+                <span>âš¡ Live Interactive Mentor Sprints</span>
+                <span>âš¡ Production Cloud Lab Deployments</span>
               </ul>
 
             </motion.div>
@@ -297,9 +297,14 @@ function Footer() {
 
                 <FaMapMarkerAlt />
 
-                <span>
-                  {contactInfo.address}
-                </span>
+                <a
+                  href="https://maps.app.goo.gl/DgGVjhvx31cUVycM9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-address-link"
+                >
+                  Flat No 101, R V Heights, Hitech City Kothaguda,
+                </a>
 
               </div>
 
@@ -340,7 +345,7 @@ function Footer() {
           <div className="footer-bottom">
 
             <p>
-              © {new Date().getFullYear()} Codewizen.
+              Â© {new Date().getFullYear()} Codewizen.
               All Rights Reserved.
             </p>
 

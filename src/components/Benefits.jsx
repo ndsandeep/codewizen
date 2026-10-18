@@ -1,44 +1,264 @@
-import React from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import "./Benefits.css";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
-
-const benefitsData = [
-  { icon: "?????", title: "Dedicated & Personalized Training", description: "Focus on individual growth with tailored learning paths." },
-  { icon: "??", title: "Industry-Oriented Curriculum", description: "Learn what the tech industry actually demands." },
-  { icon: "??", title: "Expert Trainers", description: "Guidance from experienced IT professionals." },
-  { icon: "??", title: "Placement Support", description: "Dedicated assistance for your tech career." },
-  { icon: "??", title: "Interactive Learning", description: "Engaging classes with active participation." },
-  { icon: "??", title: "AI Mock Interviews", description: "Prepare for interviews with AI-driven simulations." },
-  { icon: "??", title: "Hands-on Assignments", description: "Practical tasks to solidify your understanding." },
-  { icon: "??", title: "Live Projects", description: "Build real-world applications from scratch." }
-];
+import { FaTimes, FaCheck, FaLightbulb, FaExclamationCircle } from "react-icons/fa";
 
 function Benefits() {
-  const sectionRef = useScrollAnimation();
+  // Sequential pop-up states for the three "STUDENT THINKS" boxes
+  const [showCloud1, setShowCloud1] = useState(false);
+  const [showCloud2, setShowCloud2] = useState(false);
+  const [showCloud3, setShowCloud3] = useState(false);
+
+  // Modal insight trigger state if student wants more detail
+  const [selectedInsight, setSelectedInsight] = useState(null);
+
+  // Section reference for viewport entrance detection
+  const sectionRef = useRef(null);
+  const timer1Ref = useRef(null);
+  const timer2Ref = useRef(null);
+  const timer3Ref = useRef(null);
+  const isPlayingRef = useRef(false);
+
+  useEffect(() => {
+    // Respect user's reduced-motion accessibility preference
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      setShowCloud1(true);
+      setShowCloud2(true);
+      setShowCloud3(true);
+      return;
+    }
+
+    const clearTimers = () => {
+      if (timer1Ref.current) clearTimeout(timer1Ref.current);
+      if (timer2Ref.current) clearTimeout(timer2Ref.current);
+      if (timer3Ref.current) clearTimeout(timer3Ref.current);
+    };
+
+    const resetClouds = () => {
+      clearTimers();
+      isPlayingRef.current = false;
+      setShowCloud1(false);
+      setShowCloud2(false);
+      setShowCloud3(false);
+    };
+
+    const startSequence = () => {
+      if (isPlayingRef.current) return;
+      isPlayingRef.current = true;
+      clearTimers();
+
+      // Reset first to ensure clean entrance
+      setShowCloud1(false);
+      setShowCloud2(false);
+      setShowCloud3(false);
+
+      // Pop-up 1 appears after ~1.8 seconds of viewing this section
+      timer1Ref.current = setTimeout(() => {
+        setShowCloud1(true);
+
+        // Pop-up 2 appears ~3.2 seconds after Pop-up 1
+        timer2Ref.current = setTimeout(() => {
+          setShowCloud2(true);
+
+          // Pop-up 3 appears ~3.2 seconds after Pop-up 2
+          timer3Ref.current = setTimeout(() => {
+            setShowCloud3(true);
+          }, 3200);
+        }, 3200);
+      }, 1800);
+    };
+
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      startSequence();
+      return;
+    }
+
+    // Trigger every time the user comes to this section, and reset when they leave
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+          startSequence();
+        } else if (!entry.isIntersecting || entry.intersectionRatio < 0.05) {
+          resetClouds();
+        }
+      },
+      {
+        threshold: [0, 0.05, 0.2, 0.35]
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+      clearTimers();
+    };
+  }, []);
+
+  const insightData = {
+    ats: {
+      title: "The ATS Resume Shock",
+      tip: "Over 75% of resumes are automatically rejected in 6 seconds because they lack real production keywords.",
+      fix: "Replace basic college projects (ToDo App, Calculator) with a live microservice architecture and direct GitHub commit links."
+    },
+    tutorial: {
+      title: "The Tutorial Trap",
+      tip: "Watching 50 hours of YouTube tutorials without writing architecture is NOT building skills.",
+      fix: "Work in Agile sprints, resolve Git merge conflicts, write modular APIs, and containerize using Docker."
+    },
+    interview: {
+      title: "The Live Code Test",
+      tip: "Tech leads don't ask definition questions anymore. They want to see live deployed cloud projects.",
+      fix: "Deploy your project live to AWS/Vercel with automated CI/CD and be ready to explain your database architecture."
+    }
+  };
 
   return (
-    <section className="benefits-section" ref={sectionRef}>
+    <section className="benefits-section" id="benefits" ref={sectionRef}>
       <div className="benefits-container">
-        <div className="section-header" data-animate>
-          <span className="section-eyebrow">CODEWIZEN BENEFITS</span>
-          <h2>Why students choose us</h2>
+        
+        {/* Provocative Header That Makes Students Pause and Think */}
+        <div className="section-header" data-aos="fade-up">
+          <span className="section-eyebrow">A 60-SECOND REALITY CHECK</span>
+          <h2>15 Lakh Graduates. Zero Callbacks. Are You Making This Mistake?</h2>
+          <p className="section-subtitle">
+            Read this before you apply to another tech job.
+          </p>
         </div>
 
-        <div className="benefits-grid">
-          {benefitsData.map((benefit, index) => (
-            <div
-              className="benefit-card"
-              key={index}
-              data-animate
-              style={{ "--delay": `${index * 0.08}s` }}
-            >
-              <div className="benefit-icon">{benefit.icon}</div>
-              <h3>{benefit.title}</h3>
-              <p>{benefit.description}</p>
+        {/* Short, Gripping Narrative Story Card */}
+        <div className="story-container-compact" data-aos="fade-up">
+          
+          <div className="compact-story-box">
+
+            {/* Paragraph 1: The Numbers Problem */}
+            <p className="story-p-short">
+              Every year, over <strong className="glow-keyword">15 Lakh engineering students</strong> graduate in India. But for every single entry-level job opening, more than <strong>1,000 applicants</strong> fight for the seat. Most students send out 200+ applications on LinkedIn and Naukri — and receive nothing but dead silence.
+            </p>
+
+            {/* Automatic Thought Cloud Pop-up 1 */}
+            <div className={`thought-cloud-wrapper ${showCloud1 ? "visible" : ""}`}>
+              <div className="thought-cloud-bubble cloud-orange" onClick={() => setSelectedInsight("ats")}>
+                <div className="cloud-inner">
+                  <div className="cloud-avatar">🤔</div>
+                  <div className="cloud-text">
+                    <span className="cloud-title">STUDENT THINKS:</span>
+                    <p className="cloud-query">"Wait... Does my resume even pass the 6-second ATS bot filter, or am I getting rejected automatically?"</p>
+                  </div>
+                </div>
+                <div className="cloud-tail">
+                  <span className="tail-dot d-1"></span>
+                  <span className="tail-dot d-2"></span>
+                  <span className="tail-dot d-3"></span>
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* Paragraph 2: The Real Reason */}
+            <p className="story-p-short">
+              Why? Because colleges only taught textbook definitions. Resumes are filled with the same copied YouTube clones — a <em>ToDo list</em>, a <em>Calculator</em>, or a <em>Weather app</em>. Automated ATS bots scan them and discard them in six seconds without a human ever reading them.
+            </p>
+
+            {/* Automatic Thought Cloud Pop-up 2 */}
+            <div className={`thought-cloud-wrapper ${showCloud2 ? "visible" : ""}`}>
+              <div className="thought-cloud-bubble cloud-blue" onClick={() => setSelectedInsight("tutorial")}>
+                <div className="cloud-inner">
+                  <div className="cloud-avatar">🤔</div>
+                  <div className="cloud-text">
+                    <span className="cloud-title">STUDENT THINKS:</span>
+                    <p className="cloud-query">"Am I just stuck in tutorial hell watching videos, instead of building real production systems?"</p>
+                  </div>
+                </div>
+                <div className="cloud-tail">
+                  <span className="tail-dot d-1"></span>
+                  <span className="tail-dot d-2"></span>
+                  <span className="tail-dot d-3"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Paragraph 3: The Interview Reality */}
+            <p className="story-p-short">
+              And if you reach a technical round, interviewers won't ask: <em>"What is OOPs?"</em>. They ask: <em>"How did you resolve Git merge conflicts? What happens if your API crashes under 10k users? Show me your live deployed cloud code."</em> Rote learners freeze immediately.
+            </p>
+
+            {/* Automatic Thought Cloud Pop-up 3 */}
+            <div className={`thought-cloud-wrapper ${showCloud3 ? "visible" : ""}`}>
+              <div className="thought-cloud-bubble cloud-green" onClick={() => setSelectedInsight("interview")}>
+                <div className="cloud-inner">
+                  <div className="cloud-avatar">🤔</div>
+                  <div className="cloud-text">
+                    <span className="cloud-title">STUDENT THINKS:</span>
+                    <p className="cloud-query">"Can I actually show a live deployed project on GitHub, or does my code only run on localhost?"</p>
+                  </div>
+                </div>
+                <div className="cloud-tail">
+                  <span className="tail-dot d-1"></span>
+                  <span className="tail-dot d-2"></span>
+                  <span className="tail-dot d-3"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* The Pivot: Why Codewizen */}
+            <div className="story-solution-highlight">
+              <h3>🚀 The Codewizen Shift: 100% Real-Time Projects</h3>
+              <p>
+                This is why students choose us. We skip outdated theory. You join <strong>100% Live Online cohorts</strong>, write enterprise code in <strong>Agile Jira sprints</strong>, resolve Git PRs, and deploy live microservices to <strong>AWS Cloud</strong>. In interviews, you don't sound like a fresher — you talk with the authority of an active software engineer.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Quick Reality Stats Strip */}
+          <div className="reality-stats-strip">
+            <div className="rss-item">
+              <strong>15 Lakh+</strong>
+              <span>Yearly Grads in India</span>
+            </div>
+            <div className="rss-item">
+              <strong style={{ color: '#ea580c' }}>75%+</strong>
+              <span>Resumes Rejected by ATS</span>
+            </div>
+            <div className="rss-item">
+              <strong style={{ color: '#10b981' }}>100%</strong>
+              <span>Real-Time Live Projects</span>
+            </div>
+          </div>
+
         </div>
+
       </div>
+
+      {/* Quick Insight Mini-Modal when student clicks a cloud */}
+      {selectedInsight && (
+        <div className="insight-modal-overlay" onClick={() => setSelectedInsight(null)}>
+          <div className="insight-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="imc-header">
+              <div className="imc-badge"><FaLightbulb /> REALITY INSIGHT</div>
+              <button className="imc-close" onClick={() => setSelectedInsight(null)}><FaTimes /></button>
+            </div>
+            <h4>{insightData[selectedInsight].title}</h4>
+            <div className="imc-block alert">
+              <FaExclamationCircle className="imc-icon" />
+              <p><strong>The Trap:</strong> {insightData[selectedInsight].tip}</p>
+            </div>
+            <div className="imc-block success">
+              <FaCheck className="imc-icon" />
+              <p><strong>The Fix with Codewizen:</strong> {insightData[selectedInsight].fix}</p>
+            </div>
+            <button className="imc-btn" onClick={() => setSelectedInsight(null)}>Got it, back to story</button>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }

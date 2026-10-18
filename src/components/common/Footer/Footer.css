@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    GOOGLE FONT
 ========================================= */
 
@@ -1015,4 +1015,16 @@
 
 .whatsapp-float:hover {
   transform: scale(1.1);
+}
+.contact-item a.footer-address-link {
+  color: #cbd5e1;
+  font-size: 12px;
+  line-height: 1.7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-item a.footer-address-link:hover {
+  color: #ea580c;
+  text-decoration: underline;
 }

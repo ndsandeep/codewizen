@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import useFirebaseData from '../../hooks/useFirebaseData';
 import { FaLock, FaEnvelope, FaPhone } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
@@ -16,7 +16,7 @@ const AdminSettings = () => {
     email: 'info@codewizen.com',
     phone: '+91 9676400893',
     whatsapp: '+91 9676400893',
-    address: '3rd floor, Besides JC Brothers, beside KPHB metro station, Kukatpally Housing Board Colony, Bhagya Nagar Colony, Hyderabad',
+    address: 'Flat No 101, R V Heights, Hitech City Kothaguda,',
     upiId: 'yourname@upi'
   });
 
@@ -256,3 +256,4 @@ const AdminSettings = () => {
 };
 
 export default AdminSettings;
+

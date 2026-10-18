@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaPhoneAlt, FaEnvelope, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import useFirebaseData from '../../../hooks/useFirebaseData';
@@ -18,7 +18,7 @@ function Navbar() {
     email: 'info@codewizen.com',
     phone: '+91 9676400893',
     whatsapp: '+91 9676400893',
-    address: '123 Tech Park, Madhapur, Hyderabad - 500081'
+    address: 'Flat No 101, R V Heights, Hitech City Kothaguda,'
   });
 
   const closeMenu = () => {
