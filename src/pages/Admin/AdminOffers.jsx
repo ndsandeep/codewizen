@@ -1,0 +1,421 @@
+import React, { useState } from 'react';
+import useFirebaseData from '../../hooks/useFirebaseData';
+import { downloadCSV } from '../../utils/exportCsv';
+import { FaPlus, FaTrash, FaEdit, FaDownload } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+import './Admin.css';
+
+const defaultOffersData = [
+  {
+    id: "java-python-bundle",
+    title: "Mega Backend Bundle: Java + Python Full Stack",
+    description: "Master both Java and Python ecosystems. Dual certification and guaranteed placement assistance.",
+    originalPrice: 46998,
+    discountPrice: 29999,
+    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop",
+    features: ["Core & Adv Java", "Python & Django", "React JS Frontend", "Dual Certification"],
+    active: true
+  },
+  {
+    id: "gen-ai-data-science",
+    title: "AI Engineer Special: Data Science + Gen AI",
+    description: "The ultimate track to become an AI engineer. From Pandas and Machine Learning to RAG and LLMs.",
+    originalPrice: 54998,
+    discountPrice: 34999,
+    imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&h=300&fit=crop",
+    features: ["Machine Learning", "Deep Learning", "Prompt Engineering", "LlamaIndex & LangChain"],
+    active: true
+  },
+  {
+    id: "software-testing-pro",
+    title: "QA Pro Bundle: Manual + Automation + API",
+    description: "The complete toolkit to become a highly paid QA Engineer. Learn Selenium, Postman, and CI/CD pipelines.",
+    originalPrice: 35998,
+    discountPrice: 19999,
+    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+    features: ["Manual Testing", "Selenium Automation", "Postman API", "100% Real-Time Projects"],
+    active: true
+  }
+];
+
+const AdminOffers = () => {
+  const [offersData, setOffers] = useFirebaseData('codewizen_store_offers', defaultOffersData);
+  const offers = Array.isArray(offersData) ? offersData : (offersData ? Object.values(offersData) : defaultOffersData);
+  
+  const [ordersData, setOrders] = useFirebaseData('codewizen_store_orders', []);
+  const orders = Array.isArray(ordersData) ? ordersData : (ordersData ? Object.values(ordersData) : []);
+  
+  const [activeTab, setActiveTab] = useState('manage'); // 'manage', 'orders'
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingOffer, setEditingOffer] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const openCreateModal = () => {
+    setEditingOffer({
+      id: `offer-${Date.now()}`,
+      title: "",
+      description: "",
+      originalPrice: 0,
+      discountPrice: 0,
+      imageUrl: "",
+      features: [""],
+      active: true
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleExportOrders = () => {
+    downloadCSV(orders, `store_orders_${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+      
+      if (!cloudName || !uploadPreset || cloudName === 'your_cloud_name') {
+        alert("Please set up Cloudinary in your .env file first!");
+        setIsUploading(false);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await response.json();
+      
+      if (data.secure_url) {
+        setEditingOffer({ ...editingOffer, imageUrl: data.secure_url });
+      } else {
+        throw new Error(data.error?.message || "Upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    // Filter empty features
+    const cleanOffer = {
+      ...editingOffer,
+      features: editingOffer.features.filter(f => f.trim() !== "")
+    };
+
+    const existingIndex = offers.findIndex(o => o && o.id === cleanOffer.id);
+    if (existingIndex >= 0) {
+      const updated = [...offers];
+      updated[existingIndex] = cleanOffer;
+      setOffers(updated);
+    } else {
+      setOffers([...offers, cleanOffer]);
+    }
+    
+    setIsModalOpen(false);
+    setEditingOffer(null);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this offer?")) {
+      setOffers(offers.filter(o => o && o.id !== id));
+    }
+  };
+
+  const toggleActive = (id) => {
+    setOffers(offers.map(o => (o && o.id === id) ? { ...o, active: !o.active } : o));
+  };
+
+  const markOrderPaid = async (id) => {
+    if (window.confirm("Mark this order as Paid and send confirmation email?")) {
+      const order = orders.find(o => o && o.id === id);
+      setOrders(orders.map(o => (o && o.id === id) ? { ...o, status: 'Paid' } : o));
+
+      if (order && order.email) {
+        const offer = offers.find(o => o && o.id === order.offerId);
+        try {
+          const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+          const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_BUNDLE;
+          const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+          
+          if (serviceId && serviceId !== 'your_service_id') {
+            await emailjs.send(
+              serviceId,
+              templateId,
+              {
+                student_name: order.name,
+                student_email: order.email,
+                course_name: offer?.title || 'Course Bundle',
+                amount_paid: `₹${order.amount}`,
+                access_link: `${window.location.origin}/dashboard/${offer?.id}`
+              },
+              publicKey
+            );
+            console.log("Email sent successfully to", order.email);
+          } else {
+            console.log("EmailJS not configured. Marking paid without sending email.");
+          }
+
+          // Open WhatsApp with a pre-filled message
+          if (order.phone) {
+            const waMessage = `Hi ${order.name},\n\nThank you for your purchase! We have successfully received your payment of ₹${order.amount}.\n\nYour bundle: *${offer?.title || 'Course Bundle'}* has been unlocked.\n\nYou can access your personal dashboard here: ${window.location.origin}/dashboard/${offer?.id}\n\nHappy Learning,\nThe Codewizen Team`;
+            // Remove any non-numeric characters from the phone number (except +)
+            const cleanPhone = order.phone.replace(/[^\d+]/g, '');
+            // If it doesn't start with country code, assume India (+91)
+            const formattedPhone = cleanPhone.startsWith('+') ? cleanPhone : (cleanPhone.length === 10 ? `+91${cleanPhone}` : cleanPhone);
+            const waUrl = `https://wa.me/${formattedPhone.replace('+', '')}?text=${encodeURIComponent(waMessage)}`;
+            window.open(waUrl, '_blank');
+          }
+        } catch (error) {
+          console.error("Failed to send email:", error);
+          alert("Order marked paid, but failed to send email. Check EmailJS configuration.");
+        }
+      }
+    }
+  };
+
+  return (
+    <div className="admin-page">
+      <div className="admin-page-header">
+        <h2>Store & Offers Management</h2>
+        <div>
+          <button 
+            className={`admin-btn ${activeTab === 'manage' ? 'active' : 'outline'}`}
+            onClick={() => setActiveTab('manage')}
+            style={{ marginRight: '10px' }}
+          >
+            Manage Offers
+          </button>
+          <button 
+            className={`admin-btn ${activeTab === 'orders' ? 'active' : 'outline'}`}
+            onClick={() => setActiveTab('orders')}
+          >
+            Store Orders
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'manage' && (
+        <>
+          <button className="admin-btn active" onClick={openCreateModal} style={{ marginBottom: '20px' }}>
+            <FaPlus /> Create New Offer
+          </button>
+
+          <div className="admin-table-container">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Offer Title</th>
+                  <th>Pricing</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {offers.filter(Boolean).length === 0 ? (
+                  <tr><td colSpan="5" style={{ textAlign: 'center' }}>No offers found. Create one above.</td></tr>
+                ) : (
+                  offers.filter(Boolean).map(offer => (
+                    <tr key={offer.id}>
+                      <td>
+                        <img src={offer.imageUrl || 'https://via.placeholder.com/100x60'} alt={offer.title} style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
+                      </td>
+                      <td>
+                        <strong>{offer.title}</strong>
+                      </td>
+                      <td>
+                        <div style={{ color: '#ea580c', fontWeight: 'bold' }}>₹{offer.discountPrice}</div>
+                        <div style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '12px' }}>₹{offer.originalPrice}</div>
+                      </td>
+                      <td>
+                        <button 
+                          onClick={() => toggleActive(offer.id)}
+                          style={{
+                            padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold', border: 'none', cursor: 'pointer',
+                            background: offer.active ? '#dcfce3' : '#1e293b',
+                            color: offer.active ? '#16a34a' : 'white'
+                          }}
+                        >
+                          {offer.active ? 'Active' : 'Hidden'}
+                        </button>
+                      </td>
+                      <td style={{ display: 'flex', gap: '10px' }}>
+                        <button style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#3b82f6', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => { setEditingOffer(offer); setIsModalOpen(true); }}>
+                          <FaEdit /> Edit
+                        </button>
+                        <button style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#ef4444', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => handleDelete(offer.id)}>
+                          <FaTrash /> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+
+      {activeTab === 'orders' && (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+            <button 
+              onClick={handleExportOrders} 
+              className="admin-btn active" 
+              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <FaDownload /> Export Orders CSV
+            </button>
+          </div>
+          <div className="admin-table-container">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Customer Name</th>
+                <th>Contact</th>
+                <th>Offer Purchased</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.filter(Boolean).length === 0 ? (
+                <tr><td colSpan="7" style={{ textAlign: 'center' }}>No orders yet.</td></tr>
+              ) : (
+                [...orders].filter(Boolean).reverse().map(order => (
+                  <tr key={order.id}>
+                    <td>{new Date(order.date).toLocaleDateString()}</td>
+                    <td><strong>{order.name}</strong></td>
+                    <td>{order.email}<br/>{order.phone}</td>
+                    <td>{offers.find(o => o && o.id === order.offerId)?.title || 'Unknown Offer'}</td>
+                    <td style={{ fontWeight: 'bold', color: '#112255' }}>₹{order.amount}</td>
+                    <td>
+                      <span className={`status-badge ${order.status === 'Paid' ? 'contacted' : 'new'}`}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>
+                      {order.status !== 'Paid' && (
+                        <button style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#10b981', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => markOrderPaid(order.id)}>
+                          Mark Paid
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        </>
+      )}
+
+      {/* Editor Modal */}
+      {isModalOpen && editingOffer && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal" style={{ maxWidth: '700px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3>{editingOffer.title ? 'Edit Offer' : 'Create New Offer'}</h3>
+            
+            <form onSubmit={handleSave} className="admin-modal-form">
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                <div>
+                  <label>Offer Title</label>
+                  <input type="text" required value={editingOffer.title} onChange={e => setEditingOffer({...editingOffer, title: e.target.value})} placeholder="e.g. Master Backend Bundle" />
+                </div>
+                <div>
+                  <label>URL ID (No spaces)</label>
+                  <input type="text" required value={editingOffer.id} onChange={e => setEditingOffer({...editingOffer, id: e.target.value.replace(/\s+/g, '-').toLowerCase()})} />
+                </div>
+              </div>
+
+              <div>
+                <label>Description (Short summary)</label>
+                <textarea required rows="2" value={editingOffer.description} onChange={e => setEditingOffer({...editingOffer, description: e.target.value})} />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                <div>
+                  <label>Original Price (₹)</label>
+                  <input type="number" required value={editingOffer.originalPrice} onChange={e => setEditingOffer({...editingOffer, originalPrice: parseInt(e.target.value)})} />
+                </div>
+                <div>
+                  <label>Discount Price (₹)</label>
+                  <input type="number" required value={editingOffer.discountPrice} onChange={e => setEditingOffer({...editingOffer, discountPrice: parseInt(e.target.value)})} />
+                </div>
+              </div>
+
+              <div>
+                <label>Thumbnail Image</label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  {editingOffer.imageUrl && (
+                    <img src={editingOffer.imageUrl} alt="preview" style={{ width: '100px', height: '60px', objectFit: 'cover', borderRadius: '4px' }} />
+                  )}
+                  <div style={{ flex: 1 }}>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleImageUpload} 
+                      disabled={isUploading}
+                      style={{ padding: '8px' }}
+                    />
+                    {isUploading && <span style={{ fontSize: '12px', color: '#ea580c', marginLeft: '10px' }}>Uploading...</span>}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label>Features included (Bullet points)</label>
+                {editingOffer.features.map((feature, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                    <input 
+                      type="text" 
+                      value={feature}
+                      onChange={(e) => {
+                        const newFeatures = [...editingOffer.features];
+                        newFeatures[i] = e.target.value;
+                        setEditingOffer({...editingOffer, features: newFeatures});
+                      }}
+                      placeholder={`Feature ${i+1}`}
+                    />
+                    <button type="button" onClick={() => {
+                      const newFeatures = [...editingOffer.features];
+                      newFeatures.splice(i, 1);
+                      setEditingOffer({...editingOffer, features: newFeatures});
+                    }} style={{ background: '#fef2f2', color: '#dc2626', border: 'none', padding: '0 15px', borderRadius: '8px', cursor: 'pointer' }}>X</button>
+                  </div>
+                ))}
+                <button type="button" onClick={() => setEditingOffer({...editingOffer, features: [...editingOffer.features, ""]})} style={{ background: '#f1f5f9', color: '#475569', border: 'none', padding: '8px 15px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px' }}>
+                  + Add Feature
+                </button>
+              </div>
+
+              <div className="admin-modal-actions">
+                <button type="button" className="admin-btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                <button type="submit" className="admin-btn-primary">Save Offer</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+};
+
+export default AdminOffers;

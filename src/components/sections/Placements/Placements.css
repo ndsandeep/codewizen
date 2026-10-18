@@ -1,0 +1,219 @@
+.placements-section {
+  padding: 100px 0;
+  background-color: #f8fafc; /* light neutral background */
+  overflow: hidden;
+  position: relative;
+}
+
+.placements-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.placements-section .section-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.placements-section .section-header .section-eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ea580c;
+  margin-bottom: 12px;
+}
+
+.placements-section .section-header h2 {
+  font-size: clamp(30px, 3.8vw, 42px);
+  color: #112255 !important;
+  font-weight: 800;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.placements-section .section-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* MARQUEE SETUP */
+.placements-marquee-container {
+  margin-top: 50px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  /* Faded edges to blend smoothly into the background */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  padding: 30px 0;
+}
+
+.placements-marquee {
+  display: flex;
+  gap: 35px;
+  width: max-content;
+  animation: placementsScroll 40s linear infinite;
+  padding-left: 35px;
+}
+
+.placements-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes placementsScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 17.5px)); }
+}
+
+/* PREMIUM PLACEMENT CARD */
+.premium-placement-card {
+  width: 380px;
+  position: relative;
+  background: transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.premium-card-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(17, 34, 85, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: -1;
+}
+
+.premium-placement-card:hover .premium-card-bg {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 20px 40px rgba(234, 88, 12, 0.15); /* orange glow */
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(234, 88, 12, 0.2);
+}
+
+.premium-card-content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.premium-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.avatar-ring {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #ea580c, #f97316, #fb923c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.premium-info h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #112255;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+.premium-placement-card:hover .premium-info h3 {
+  color: #ea580c;
+}
+
+.premium-course {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.premium-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 20px;
+  margin-top: auto;
+}
+
+.company-badge, .ctc-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 8px 14px;
+  border-radius: 50px;
+  transition: background 0.3s ease;
+}
+
+.premium-placement-card:hover .company-badge,
+.premium-placement-card:hover .ctc-badge {
+  background: #fff3ed;
+}
+
+.badge-icon {
+  font-size: 1.1rem;
+}
+
+.badge-text {
+  font-weight: 700;
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .placements-section {
+    padding: 70px 0;
+  }
+  
+  .premium-placement-card {
+    width: 320px;
+  }
+  
+  .premium-card-content {
+    padding: 20px;
+  }
+  
+  .avatar-ring {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .premium-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .company-badge, .ctc-badge {
+    width: 100%;
+  }
+}

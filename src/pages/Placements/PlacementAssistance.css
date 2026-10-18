@@ -1,0 +1,182 @@
+/* ================================================
+   PLACEMENT ASSISTANCE
+================================================ */
+
+.pa-page-wrapper {
+  background-color: #ffffff;
+}
+
+.pa-container {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── STATS SECTION ── */
+.pa-stats-section {
+  background-color: #112255;
+  padding: 60px 0;
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
+}
+
+.pa-stats-container {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pa-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  text-align: center;
+}
+
+.pa-stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.pa-stat-card:hover {
+  transform: translateY(-5px);
+  border-color: #ea580c;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pa-stat-num {
+  font-size: 48px;
+  font-weight: 800;
+  color: #ea580c;
+  margin-bottom: 10px;
+}
+
+.pa-stat-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #f8fafc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── SECTION HEADER ── */
+.pa-section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 50px;
+}
+
+.pa-section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #112255;
+  margin-bottom: 15px;
+}
+
+.pa-section-header p {
+  font-size: 18px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* ── JOURNEY GRID ── */
+.pa-journey-section {
+  padding: 80px 0;
+  background: #ffffff;
+}
+
+.pa-journey-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.pa-journey-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pa-journey-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #112255;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.pa-journey-card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+}
+
+.pa-journey-card:hover::before {
+  transform: scaleX(1);
+}
+
+.pa-j-icon {
+  width: 80px;
+  height: 80px;
+  background: #fff7ed;
+  color: #ea580c;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 25px;
+  box-shadow: 0 10px 20px rgba(234, 88, 12, 0.1);
+}
+
+.pa-journey-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #112255;
+  margin-bottom: 15px;
+}
+
+.pa-journey-card p {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .pa-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .pa-journey-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .pa-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pa-journey-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pa-stats-section {
+    padding: 40px 0;
+    margin-top: 0;
+  }
+}

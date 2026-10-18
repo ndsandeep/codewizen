@@ -1,0 +1,181 @@
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+// Layouts
+import PublicLayout from "./components/layout/PublicLayout";
+import AdminLayout from "./components/layout/AdminLayout";
+import StudentLayout from "./components/layout/StudentLayout";
+import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
+
+// Public Pages
+import Home from "./pages/Home/Home";
+import AboutUs from "./pages/About/AboutUs";
+import OurTrainers from "./pages/About/OurTrainers";
+import WhyChooseUs from "./pages/About/WhyChooseUs";
+import OurLocation from "./pages/About/OurLocation";
+import Reviews from "./pages/Reviews/Reviews";
+
+import JavaFullStack from "./pages/Courses/JavaFullStack";
+import PythonFullStack from "./pages/Courses/PythonFullStack";
+import DataAnalytics from "./pages/Courses/DataAnalytics";
+import SoftwareTesting from "./pages/Courses/SoftwareTesting";
+import DataScience from "./pages/Courses/DataScience";
+import GenerativeAI from "./pages/Courses/GenerativeAI";
+import ReactJS from "./pages/Courses/ReactJS";
+import CloudComputing from "./pages/Courses/CloudComputing";
+import DevOpsAutomation from "./pages/Courses/DevOpsAutomation";
+import CyberSecurity from "./pages/Courses/CyberSecurity";
+import UIUXDesign from "./pages/Courses/UIUXDesign";
+
+import TrainingOverview from "./pages/Training/TrainingOverview";
+import ClassroomTraining from "./pages/Training/ClassroomTraining";
+import OnlineTraining from "./pages/Training/OnlineTraining";
+import CorporateTraining from "./pages/Training/CorporateTraining";
+import InternshipProgram from "./pages/Training/InternshipProgram";
+import ProjectTraining from "./pages/Training/ProjectTraining";
+import UpcomingBatches from "./pages/Training/UpcomingBatches";
+import BatchSchedule from "./pages/Training/BatchSchedule";
+
+import FreeDemo from "./pages/Enrollment/FreeDemo";
+import CourseRegistration from "./pages/Enrollment/CourseRegistration";
+import CourseEnquiry from "./pages/Enrollment/CourseEnquiry";
+
+import PlacementAssistance from "./pages/Placements/PlacementAssistance";
+import HiringPartners from "./pages/Placements/HiringPartners";
+import CareerSupport from "./pages/Placements/CareerSupport";
+import SuccessStories from "./pages/SuccessStories/SuccessStories";
+
+import ContactUs from "./pages/Contact/ContactUs";
+import Prices from "./pages/Prices/Prices";
+import Offers from "./pages/Store/Offers";
+import BundleDashboard from "./pages/Dashboard/BundleDashboard";
+import StudentAuth from "./pages/Auth/StudentAuth";
+import StudentProfile from "./pages/Student/StudentProfile";
+
+import Workshop from "./pages/Workshop/Workshop";
+import PaymentSuccess from "./pages/Workshop/PaymentSuccess";
+
+// Admin Pages
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminLeads from "./pages/Admin/AdminLeads";
+import AdminBatches from "./pages/Admin/AdminBatches";
+import AdminReviews from "./pages/Admin/AdminReviews";
+import AdminPlacements from "./pages/Admin/AdminPlacements";
+import AdminCourses from "./pages/Admin/AdminCourses";
+import AdminSettings from "./pages/Admin/AdminSettings";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminEvents from "./pages/Admin/AdminEvents";
+import AdminWorkshops from "./pages/Admin/AdminWorkshops";
+import AdminOffers from "./pages/Admin/AdminOffers";
+
+import "./styles/App.css";
+
+function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      easing: 'ease-out-cubic',
+    });
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      
+      <Routes>
+        {/* =========================================
+            ADMIN LOGIN (Standalone)
+        ========================================= */}
+        <Route path="/admin-login" element={<AdminLogin />} />
+        {/* =========================================
+            ADMIN ROUTES (No Navbar/Footer)
+        ========================================= */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="events" element={<AdminEvents />} />
+          <Route path="leads" element={<AdminLeads />} />
+          <Route path="batches" element={<AdminBatches />} />
+          <Route path="reviews" element={<AdminReviews />} />
+          <Route path="placements" element={<AdminPlacements />} />
+          <Route path="courses" element={<AdminCourses />} />
+          <Route path="settings" element={<AdminSettings />} />
+          <Route path="workshops" element={<AdminWorkshops />} />
+          <Route path="offers" element={<AdminOffers />} />
+        </Route>
+
+        {/* =========================================
+            PUBLIC ROUTES (With Navbar/Footer)
+        ========================================= */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/our-trainers" element={<OurTrainers />} />
+          <Route path="/why-choose-us" element={<WhyChooseUs />} />
+          <Route path="/our-location" element={<OurLocation />} />
+          <Route path="/student-reviews" element={<Reviews />} />
+
+          <Route path="/java-full-stack" element={<JavaFullStack />} />
+          <Route path="/python-full-stack" element={<PythonFullStack />} />
+          <Route path="/data-analytics" element={<DataAnalytics />} />
+          <Route path="/software-testing" element={<SoftwareTesting />} />
+          <Route path="/data-science" element={<DataScience />} />
+          <Route path="/generative-ai" element={<GenerativeAI />} />
+          <Route path="/react-js" element={<ReactJS />} />
+          <Route path="/cloud-computing" element={<CloudComputing />} />
+          <Route path="/devops-automation" element={<DevOpsAutomation />} />
+          <Route path="/cyber-security" element={<CyberSecurity />} />
+          <Route path="/ui-ux-design" element={<UIUXDesign />} />
+
+          <Route path="/training" element={<TrainingOverview />} />
+          <Route path="/classroom-training" element={<ClassroomTraining />} />
+          <Route path="/online-training" element={<OnlineTraining />} />
+          <Route path="/corporate-training" element={<CorporateTraining />} />
+          <Route path="/internship-program" element={<InternshipProgram />} />
+          <Route path="/project-training" element={<ProjectTraining />} />
+          <Route path="/upcoming-batches" element={<UpcomingBatches />} />
+          <Route path="/batch-schedule" element={<BatchSchedule />} />
+
+          <Route path="/free-demo" element={<FreeDemo />} />
+          <Route path="/enroll-now" element={<Navigate to="/contact-us" replace />} />
+          <Route path="/course-registration" element={<CourseRegistration />} />
+          <Route path="/course-enquiry" element={<CourseEnquiry />} />
+
+          <Route path="/placement-assistance" element={<Navigate to="/project-training" replace />} />
+          <Route path="/placed-students" element={<Navigate to="/project-training" replace />} />
+          <Route path="/hiring-partners" element={<Navigate to="/project-training" replace />} />
+          <Route path="/career-support" element={<Navigate to="/online-training" replace />} />
+          <Route path="/real-time-projects" element={<Navigate to="/project-training" replace />} />
+          <Route path="/real-time-exposure" element={<Navigate to="/project-training" replace />} />
+          <Route path="/student-reviews" element={<Navigate to="/success-stories" replace />} />
+          <Route path="/success-stories" element={<SuccessStories />} />
+
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/prices" element={<Prices />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/auth" element={<StudentAuth />} />
+        </Route>
+
+        {/* =========================================
+            STUDENT APP ROUTES (Dedicated LMS Layout)
+        ========================================= */}
+        <Route element={<StudentLayout />}>
+          <Route path="/dashboard/:bundleId" element={<BundleDashboard />} />
+          <Route path="/profile" element={<StudentProfile />} />
+        </Route>
+
+        {/* =========================================
+            WORKSHOP ROUTES (No Navbar/Footer)
+        ========================================= */}
+        <Route path="/workshop/:workshopId" element={<Workshop />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+      </Routes>
+      
+    </BrowserRouter>
+  );
+}
+
+export default App;
