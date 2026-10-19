@@ -161,7 +161,7 @@ function Benefits() {
                 <div className="cloud-content-overlay">
                   <div className="cloud-header">
                     <span className="cloud-title-badge badge-orange">
-                      <span className="cloud-icon">💭</span> STUDENT THINKS:
+                      <span className="cloud-icon">💭</span> Think Once:
                     </span>
                     <span className="cloud-hint">Insight 💡</span>
                   </div>
@@ -192,7 +192,7 @@ function Benefits() {
                 <div className="cloud-content-overlay">
                   <div className="cloud-header">
                     <span className="cloud-title-badge badge-blue">
-                      <span className="cloud-icon">💭</span> STUDENT THINKS:
+                      <span className="cloud-icon">💭</span> Think Once:
                     </span>
                     <span className="cloud-hint">Insight 💡</span>
                   </div>
@@ -223,7 +223,7 @@ function Benefits() {
                 <div className="cloud-content-overlay">
                   <div className="cloud-header">
                     <span className="cloud-title-badge badge-green">
-                      <span className="cloud-icon">💭</span> STUDENT THINKS:
+                      <span className="cloud-icon">💭</span> Think Once:
                     </span>
                     <span className="cloud-hint">Insight 💡</span>
                   </div>
