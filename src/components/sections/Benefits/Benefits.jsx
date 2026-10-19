@@ -154,7 +154,7 @@ function Benefits() {
                 title="Click for Reality Insight"
               >
                 {/* Exact Cloud SVG Shape from User Reference */}
-                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="none">
+                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="xMidYMid meet">
                   <path d={CLOUD_SHAPE_PATH} fill="#ffffff" />
                 </svg>
 
@@ -185,7 +185,7 @@ function Benefits() {
                 title="Click for Reality Insight"
               >
                 {/* Exact Cloud SVG Shape from User Reference */}
-                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="none">
+                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="xMidYMid meet">
                   <path d={CLOUD_SHAPE_PATH} fill="#ffffff" />
                 </svg>
 
@@ -216,7 +216,7 @@ function Benefits() {
                 title="Click for Reality Insight"
               >
                 {/* Exact Cloud SVG Shape from User Reference */}
-                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="none">
+                <svg viewBox="0 0 600 480" className="cloud-svg-backdrop" preserveAspectRatio="xMidYMid meet">
                   <path d={CLOUD_SHAPE_PATH} fill="#ffffff" />
                 </svg>
 

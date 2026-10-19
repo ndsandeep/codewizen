@@ -94,14 +94,13 @@
 /* ─── SEQUENTIAL CLOUD THOUGHT POP-UP (EXACT CLOUD SHAPE) ─── */
 .thought-cloud-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start; /* Aligned to the LEFT side of the paragraph */
   width: 100%;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   pointer-events: none;
-  margin: 0 auto;
+  margin: 0;
   transition: 
     max-height 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.45s ease,
@@ -109,33 +108,33 @@
 }
 
 .thought-cloud-wrapper.visible {
-  max-height: 480px;
+  max-height: 520px;
   opacity: 1;
   overflow: visible;
-  margin: 20px auto 26px auto;
+  margin: 14px 0 22px 10px; /* Up-side and left of the paragraph */
   pointer-events: auto;
 }
 
 /* Cloud Spring Pop-in Animation & Gentle Floating Idle */
 .thought-cloud-wrapper.visible .thought-cloud-bubble-card {
-  animation: cloudSpringPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, cloudGentleFloat 4.2s ease-in-out 0.7s infinite alternate;
+  animation: cloudSpringPopUp 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, cloudGentleFloat 4.2s ease-in-out 0.7s infinite alternate;
 }
 
-@keyframes cloudSpringPop {
+@keyframes cloudSpringPopUp {
   0% {
     opacity: 0;
-    transform: scale(0.25) translateY(35px);
+    transform: scale(0.15) translateY(45px) translateX(25px);
   }
   65% {
     opacity: 1;
-    transform: scale(1.06) translateY(-6px);
+    transform: scale(1.06) translateY(-8px) translateX(-4px);
   }
   85% {
-    transform: scale(0.98) translateY(2px);
+    transform: scale(0.98) translateY(2px) translateX(1px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) translateX(0);
   }
 }
 
@@ -148,18 +147,19 @@
   }
 }
 
-/* Standalone Cloud Speech Bubble Card (Exact Cloud Ratio) */
+/* Standalone Cloud Speech Bubble Card (Exact Cloud Ratio: 1.25 : 1) */
 .thought-cloud-bubble-card {
   position: relative;
   width: 100%;
-  max-width: 590px;
-  min-height: 250px;
+  max-width: 480px;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transform-origin: 62% 95%; /* Originates from the bottom-right tail tip */
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 16px 35px rgba(17, 34, 85, 0.14)) drop-shadow(0 5px 12px rgba(0, 0, 0, 0.05));
+  filter: drop-shadow(0 16px 35px rgba(17, 34, 85, 0.15)) drop-shadow(0 5px 12px rgba(0, 0, 0, 0.05));
 }
 
 .thought-cloud-bubble-card:hover {
@@ -178,18 +178,19 @@
   overflow: visible;
 }
 
-/* Inner Text Padded Safely Inside Cloud Body */
+/* Inner Text Centered in the Safe Belly of the Cloud */
 .cloud-content-overlay {
   position: relative;
   z-index: 5;
-  padding: 44px 75px 65px 75px;
+  padding: 0 45px 35px 35px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
   width: 100%;
-  max-width: 480px;
+  max-width: 360px;
 }
 
 .cloud-header {
@@ -463,17 +464,24 @@
     font-size: 15.5px;
   }
 
+  .thought-cloud-wrapper.visible {
+    justify-content: center;
+    margin: 12px auto 18px auto;
+  }
+
   .thought-cloud-bubble-card {
-    max-width: 96%;
-    min-height: 220px;
+    max-width: 360px;
+    height: 290px;
+    transform-origin: center bottom;
   }
 
   .cloud-content-overlay {
-    padding: 32px 42px 55px 42px;
+    padding: 0 30px 25px 25px;
+    max-width: 290px;
   }
 
   .cloud-query {
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.45;
   }
 }
