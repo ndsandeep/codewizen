@@ -10,6 +10,7 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
   FaArrowRight,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -109,31 +110,14 @@ function Footer() {
 
 
               <p style={{ fontSize: '14px', lineHeight: '1.7', color: '#cbd5e1', marginBottom: '18px' }}>
-                Stop memorizing syntax â€” start engineering real systems. We bridge the gap between textbook coding and production environments through 100% interactive live training and real-time enterprise stacks.
+                Stop memorizing syntax — start engineering real systems. We bridge the gap between textbook coding and production environments through 100% interactive live training and real-time enterprise stacks.
               </p>
 
-              {/* Inspiring Badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '10px 14px',
-                background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.15) 0%, rgba(30, 58, 138, 0.25) 100%)',
-                border: '1px solid rgba(234, 88, 12, 0.35)',
-                borderRadius: '10px',
-                marginBottom: '20px'
-              }}>
-                <span style={{ fontSize: '16px' }}>ðŸš€</span>
-                <span style={{ fontSize: '12.5px', fontWeight: '600', color: '#fed7aa', letterSpacing: '0.3px', lineHeight: '1.4' }}>
-                  "Your code is your resume. Build things that make an impact."
-                </span>
-              </div>
-
               <ul className="footer-highlights">
-                <span>âš¡ 100% Real-Time Projects & Architectures</span>
-                <span>âš¡ 100% Real-Time Industry Exposure</span>
-                <span>âš¡ Live Interactive Mentor Sprints</span>
-                <span>âš¡ Production Cloud Lab Deployments</span>
+                <span><FaCheckCircle style={{ color: '#10b981', fontSize: '13px', flexShrink: 0 }} /> 100% Real-Time Projects & Architectures</span>
+                <span><FaCheckCircle style={{ color: '#10b981', fontSize: '13px', flexShrink: 0 }} /> 100% Real-Time Industry Exposure</span>
+                <span><FaCheckCircle style={{ color: '#10b981', fontSize: '13px', flexShrink: 0 }} /> Live Interactive Mentor Sprints</span>
+                <span><FaCheckCircle style={{ color: '#10b981', fontSize: '13px', flexShrink: 0 }} /> Production Cloud Lab Deployments</span>
               </ul>
 
             </motion.div>
@@ -345,7 +329,7 @@ function Footer() {
           <div className="footer-bottom">
 
             <p>
-              Â© {new Date().getFullYear()} Codewizen.
+              © {new Date().getFullYear()} Codewizen.
               All Rights Reserved.
             </p>
 
